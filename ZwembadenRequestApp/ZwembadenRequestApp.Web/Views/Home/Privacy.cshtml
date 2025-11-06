@@ -1,0 +1,169 @@
+﻿@{
+    ViewBag.Title = "Privacybeleid";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center">
+                        <i class="fas fa-shield-alt fa-lg" style="margin-right: 10px;"></i>
+                        @ViewBag.Title
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="privacy-content">
+                        <div class="section">
+                            <h4><i class="fas fa-info-circle text-primary"></i> Over ons Privacybeleid</h4>
+                            <p>
+                                Zwembaden Request App hecht veel waarde aan uw privacy. Dit privacybeleid beschrijft
+                                hoe wij omgaan met uw persoonlijke gegevens en welke rechten u heeft.
+                            </p>
+                        </div>
+
+                        <div class="section">
+                            <h4><i class="fas fa-database text-info"></i> Gegevens die wij verzamelen</h4>
+                            <p>Wij verzamelen de volgende gegevens:</p>
+                            <ul>
+                                <li>Naam en contactgegevens</li>
+                                <li>E-mailadres</li>
+                                <li>Informatie over uw offerte-aanvragen</li>
+                                <li>Communicatiegeschiedenis</li>
+                            </ul>
+                        </div>
+
+                        <div class="section">
+                            <h4><i class="fas fa-lock text-success"></i> Beveiliging van gegevens</h4>
+                            <p>
+                                Wij nemen passende beveiligingsmaatregelen om misbruik van en ongeautoriseerde
+                                toegang tot uw persoonlijke gegevens te voorkomen.
+                            </p>
+                        </div>
+
+                        <div class="section">
+                            <h4><i class="fas fa-share-alt text-warning"></i> Delen met derden</h4>
+                            <p>
+                                Uw gegevens worden niet verkocht aan derden en worden alleen gedeeld wanneer dit
+                                noodzakelijk is voor de uitvoering van onze overeenkomst of om te voldoen aan
+                                een wettelijke verplichting.
+                            </p>
+                        </div>
+
+                        <div class="section">
+                            <h4><i class="fas fa-eye text-primary"></i> Uw rechten</h4>
+                            <p>U heeft het recht om:</p>
+                            <ul>
+                                <li>Inzage te vragen in uw persoonsgegevens</li>
+                                <li>Uw gegevens te laten corrigeren</li>
+                                <li>Uw gegevens te laten verwijderen</li>
+                                <li>Bezwaar te maken tegen verwerking</li>
+                            </ul>
+                        </div>
+
+                        <div class="section">
+                            <h4><i class="fas fa-question-circle text-info"></i> Vragen?</h4>
+                            <p>
+                                Heeft u vragen over ons privacybeleid? Neem dan contact met ons op via
+                                <a href="mailto:privacy@zwembadenapp.nl">privacy@zwembadenapp.nl</a>.
+                            </p>
+                        </div>
+
+                        <div class="text-muted text-center" style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;">
+                            <small>Laatst bijgewerkt: @DateTime.Now.ToString("dd MMMM yyyy")</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    @Html.ActionLink("← Terug naar Home", "Index", "Home", null, new { @class = "btn btn-primary" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .panel {
+        margin-top: 30px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border: none;
+        border-radius: 12px;
+    }
+
+    .panel-heading {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white;
+        border-radius: 12px 12px 0 0 !important;
+        padding: 25px;
+    }
+
+    .panel-title {
+        font-weight: 600;
+        font-size: 1.5em;
+        margin: 0;
+    }
+
+    .panel-body {
+        padding: 40px;
+    }
+
+    .section {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+        .section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section h4 {
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+            .section h4 i {
+                margin-right: 10px;
+            }
+
+        .section p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .section ul {
+            color: #555;
+            padding-left: 20px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 25px;
+        padding: 10px 30px;
+        font-weight: 600;
+    }
+
+    .text-primary {
+        color: #667eea !important;
+    }
+
+    .text-info {
+        color: #17a2b8 !important;
+    }
+
+    .text-success {
+        color: #28a745 !important;
+    }
+
+    .text-warning {
+        color: #ffc107 !important;
+    }
+</style>

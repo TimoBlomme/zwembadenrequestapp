@@ -1,0 +1,207 @@
+﻿@model ZwembadenRequestApp.Web.Models.AdminQuoteViewModel
+@{
+    ViewBag.Title = "Offerte Bewerken";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center">
+                        <i class="fas fa-edit fa-lg" style="margin-right: 10px;"></i>
+                        @ViewBag.Title
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <!-- Quote Details Card -->
+                    <div class="panel panel-default" style="margin-bottom: 25px;">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+                                Offerte Details
+                            </h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <dl class="dl-horizontal">
+                                        <dt>Klant:</dt>
+                                        <dd>@Model.CustomerName</dd>
+                                        <dt>Type:</dt>
+                                        <dd>@Model.PoolType</dd>
+                                        <dt>Afmetingen:</dt>
+                                        <dd>@Model.Length m × @Model.Width m × @Model.Depth m</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <dl class="dl-horizontal">
+                                        <dt>Spots:</dt>
+                                        <dd>@Model.NumberOfLights</dd>
+                                        <dt>Trap:</dt>
+                                        <dd>@(Model.HasStairs ? "Ja" : "Nee")</dd>
+                                        <dt>Aanvraag Datum:</dt>
+                                        <dd>@Model.RequestDate.ToString("dd/MM/yyyy HH:mm")</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            @if (!string.IsNullOrEmpty(Model.AdditionalNotes))
+                            {
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <strong>Klant Opmerkingen:</strong>
+                                        <p class="text-muted">@Model.AdditionalNotes</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    @using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.Id)
+
+                        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Status, new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.Status, (SelectList)ViewBag.StatusList, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ProposedPrice, new { @class = "control-label" })
+                                    <div class="input-group">
+                                        <span class="input-group-addon">€</span>
+                                        @Html.TextBoxFor(model => model.ProposedPrice, new { @class = "form-control", type = "number", step = "0.01", min = "0" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ProposedPrice, "", new { @class = "text-danger" })
+                                    @if (Model.ResponseDate.HasValue)
+                                    {
+                                        <small class="text-muted">Prijs ingesteld op: @Model.ResponseDate.Value.ToString("dd/MM/yyyy HH:mm")</small>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.AdminNotes, new { @class = "control-label" })
+                            @Html.TextAreaFor(model => model.AdminNotes, new { @class = "form-control", rows = 4, placeholder = "Interne opmerkingen voor dit offerte verzoek..." })
+                            @Html.ValidationMessageFor(model => model.AdminNotes, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group" style="margin-top: 30px;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-success btn-block btn-lg">
+                                        <i class="fas fa-save" style="margin-right: 8px;"></i>
+                                        Opslaan
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.ActionLink("Annuleren", "Index", "Admin", null, new { @class = "btn btn-default btn-block btn-lg" })
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .panel {
+        margin-top: 30px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border: none;
+        border-radius: 12px;
+    }
+
+    .panel-heading {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        border-radius: 12px 12px 0 0 !important;
+        padding: 20px;
+    }
+
+    .panel-title {
+        font-weight: 600;
+        color: white;
+        font-size: 1.4em;
+        margin: 0;
+    }
+
+    .panel-default .panel-heading {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+        color: #333;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .dl-horizontal dt {
+        text-align: left;
+        width: 120px;
+        margin-bottom: 5px;
+        font-weight: 600;
+        color: #555;
+    }
+
+    .dl-horizontal dd {
+        margin-left: 130px;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 12px;
+        border: 1px solid #ddd;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+    .btn-success {
+        background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+        border: none;
+        border-radius: 25px;
+        padding: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(86, 171, 47, 0.4);
+        }
+
+    .btn-default {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border: 1px solid #ddd;
+        border-radius: 25px;
+        padding: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-default:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+    .input-group-addon {
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-right: none;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

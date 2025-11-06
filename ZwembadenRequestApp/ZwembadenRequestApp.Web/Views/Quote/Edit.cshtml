@@ -1,0 +1,106 @@
+﻿@model ZwembadenRequestApp.Web.Models.CreateQuoteViewModel
+@{
+    ViewBag.Title = "Offerte Bewerken";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center">
+                        <i class="fas fa-edit fa-lg" style="margin-right: 10px;"></i>
+                        @ViewBag.Title
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("Edit", "Quote", new { id = ViewContext.RouteData.Values["id"] }, FormMethod.Post, new { role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PoolType, new { @class = "control-label" })
+                            @Html.DropDownListFor(m => m.PoolType, new SelectList(new[] { "Rechthoekig", "Ovaal", "Rond", "Vrij Vorm" }),
+                                "Kies type...", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PoolType, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Length, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Length, new { @class = "form-control", type = "number", step = "0.1" })
+                                    @Html.ValidationMessageFor(m => m.Length, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Width, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Width, new { @class = "form-control", type = "number", step = "0.1" })
+                                    @Html.ValidationMessageFor(m => m.Width, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Depth, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Depth, new { @class = "form-control", type = "number", step = "0.1" })
+                                    @Html.ValidationMessageFor(m => m.Depth, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.NumberOfLights, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.NumberOfLights, new { @class = "form-control", type = "number" })
+                            @Html.ValidationMessageFor(m => m.NumberOfLights, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    @Html.CheckBoxFor(m => m.HasStairs)
+                                    @Html.DisplayNameFor(m => m.HasStairs)
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.AdditionalNotes, new { @class = "control-label" })
+                            @Html.TextAreaFor(m => m.AdditionalNotes, new { @class = "form-control", rows = 4 })
+                            @Html.ValidationMessageFor(m => m.AdditionalNotes, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-warning btn-block btn-lg">
+                                <i class="fas fa-save" style="margin-right: 8px;"></i>
+                                Offerte Bijwerken
+                            </button>
+                        </div>
+                    }
+                </div>
+                <div class="panel-footer text-center">
+                    @Html.ActionLink("← Terug naar overzicht", "Index", "Quote", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .panel-warning .panel-heading {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+        color: white;
+    }
+
+    .btn-warning {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        border: none;
+        color: white;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

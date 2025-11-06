@@ -1,0 +1,349 @@
+﻿@model ZwembadenRequestApp.Web.Models.IndexViewModel
+@{
+    ViewBag.Title = "Account Beheer";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center">
+                        <i class="fas fa-cogs fa-lg" style="margin-right: 10px;"></i>
+                        @ViewBag.Title
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <!-- Status Message -->
+                    @if (!string.IsNullOrEmpty(ViewBag.StatusMessage))
+                    {
+                        <div class="alert alert-success alert-dismissible fade in" role="alert" style="border-radius: 8px;">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+                            @ViewBag.StatusMessage
+                        </div>
+                    }
+
+                    <h4 class="text-center" style="color: #555; margin-bottom: 30px;">
+                        <i class="fas fa-user-shield" style="margin-right: 10px;"></i>
+                        Beheer uw accountinstellingen
+                    </h4>
+
+                    <!-- Account Settings Cards -->
+                    <div class="row">
+                        <!-- Password Management -->
+                        <div class="col-md-6">
+                            <div class="setting-card">
+                                <div class="setting-icon">
+                                    <i class="fas fa-key"></i>
+                                </div>
+                                <div class="setting-content">
+                                    <h5>Wachtwoord</h5>
+                                    <p class="text-muted">
+                                        @if (Model.HasPassword)
+                                        {
+                                            <text>Wijzig uw wachtwoord voor betere beveiliging</text>
+                                        }
+                                        else
+                                        {
+                                            <text>Stel een wachtwoord in voor uw account</text>
+                                        }
+                                    </p>
+                                    @if (Model.HasPassword)
+                                    {
+                                        @Html.ActionLink("Wachtwoord Wijzigen", "ChangePassword", null, new
+                                        {
+                                            @class = "btn btn-primary btn-sm",
+                                            style = "width: 100%;"
+                                        })
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Wachtwoord Instellen", "SetPassword", null, new
+                                        {
+                                            @class = "btn btn-primary btn-sm",
+                                            style = "width: 100%;"
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- External Logins -->
+                        <div class="col-md-6">
+                            <div class="setting-card">
+                                <div class="setting-icon">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </div>
+                                <div class="setting-content">
+                                    <h5>Externe Logins</h5>
+                                    <p class="text-muted">
+                                        Beheer externe login providers (@Model.Logins.Count geconfigureerd)
+                                    </p>
+                                    @Html.ActionLink("Beheren", "ManageLogins", null, new
+                                    {
+                                        @class = "btn btn-info btn-sm",
+                                        style = "width: 100%;"
+                                    })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Two-Factor Authentication -->
+                    <div class="security-section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="setting-card" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                    <div class="setting-icon">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <div class="setting-content">
+                                        <h5>Twee-Factor Authenticatie</h5>
+                                        <p class="text-muted">
+                                            Voeg een extra beveiligingslaag toe aan uw account met twee-factor authenticatie.
+                                        </p>
+                                        <div class="alert alert-info" style="margin-bottom: 15px; border-radius: 6px;">
+                                            <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+                                            Er zijn momenteel geen twee-factor authenticatie providers geconfigureerd.
+                                            <a href="https://go.microsoft.com/fwlink/?LinkId=403804" class="alert-link" target="_blank">
+                                                Lees meer over het instellen van twee-factor authenticatie
+                                            </a>.
+                                        </div>
+
+                                        <!-- Uncomment this section if you enable two-factor authentication -->
+                                        @*
+                                            @if (Model.TwoFactor)
+                                            {
+                                                using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { role = "form", style = "display: inline;" }))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    <div class="text-center">
+                                                        <span class="badge badge-success" style="padding: 8px 15px; font-size: 14px;">
+                                                            <i class="fas fa-check" style="margin-right: 5px;"></i>Ingeschakeld
+                                                        </span>
+                                                        <button type="submit" class="btn btn-outline-danger btn-sm" style="margin-left: 10px;">
+                                                            Uitschakelen
+                                                        </button>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { role = "form", style = "display: inline;" }))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    <div class="text-center">
+                                                        <span class="badge badge-secondary" style="padding: 8px 15px; font-size: 14px;">
+                                                            <i class="fas fa-times" style="margin-right: 5px;"></i>Uitgeschakeld
+                                                        </span>
+                                                        <button type="submit" class="btn btn-outline-success btn-sm" style="margin-left: 10px;">
+                                                            Inschakelen
+                                                        </button>
+                                                    </div>
+                                                }
+                                            }
+                                        *@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phone Number Section (Commented out by default) -->
+                    @*
+                        <div class="security-section" style="margin-top: 20px;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="setting-card">
+                                        <div class="setting-icon">
+                                            <i class="fas fa-phone"></i>
+                                        </div>
+                                        <div class="setting-content">
+                                            <h5>Telefoonnummer</h5>
+                                            <p class="text-muted">
+                                                @(Model.PhoneNumber ?? "Niet ingesteld")
+                                            </p>
+                                            @if (Model.PhoneNumber != null)
+                                            {
+                                                <div>
+                                                    @Html.ActionLink("Wijzigen", "AddPhoneNumber", null, new { @class = "btn btn-outline-primary btn-sm", style = "margin-right: 5px;" })
+                                                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { role = "form", style = "display: inline;" }))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        <button type="submit" class="btn btn-outline-danger btn-sm">Verwijderen</button>
+                                                    }
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.ActionLink("Toevoegen", "AddPhoneNumber", null, new { @class = "btn btn-primary btn-sm" })
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    *@
+                </div>
+                <div class="panel-footer text-center">
+                    <small class="text-muted">
+                        @Html.ActionLink("← Terug naar Profiel", "Profile", "Account", null, new { @class = "text-primary" }) |
+                        @Html.ActionLink("Help & Ondersteuning", "Contact", "Home", null, new { @class = "text-muted" })
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .panel {
+        margin-top: 30px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border: none;
+        border-radius: 12px;
+    }
+
+    .panel-heading {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        border-radius: 12px 12px 0 0 !important;
+        padding: 25px;
+    }
+
+    .panel-title {
+        font-weight: 600;
+        color: white;
+        font-size: 1.5em;
+    }
+
+    .panel-body {
+        padding: 30px;
+    }
+
+    .setting-card {
+        background: white;
+        border: 1px solid #e9ecef;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        align-items: flex-start;
+    }
+
+        .setting-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+    .setting-icon {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+
+        .setting-icon i {
+            font-size: 1.2em;
+        }
+
+    .setting-content {
+        flex: 1;
+    }
+
+        .setting-content h5 {
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .setting-content p {
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+    .btn-info {
+        background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);
+        border: none;
+        border-radius: 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+        .btn-info:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(23, 162, 184, 0.4);
+        }
+
+    .alert-success {
+        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        border: none;
+        border-radius: 8px;
+        color: #155724;
+        font-weight: 500;
+    }
+
+    .alert-info {
+        background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+        border: none;
+        border-radius: 8px;
+        color: #0c5460;
+    }
+
+    .security-section {
+        border-top: 1px solid #e9ecef;
+    }
+
+    .badge-success {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    }
+
+    .badge-secondary {
+        background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+    }
+</style>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Auto-dismiss success alerts after 5 seconds
+            setTimeout(function() {
+                $('.alert-success').fadeOut(1000, function() {
+                    $(this).remove();
+                });
+            }, 5000);
+
+            // Add smooth animations to setting cards
+            $('.setting-card').each(function(index) {
+                $(this).delay(100 * index).animate({
+                    opacity: 1,
+                    marginTop: 0
+                }, 500);
+            });
+        });
+    </script>
+}
