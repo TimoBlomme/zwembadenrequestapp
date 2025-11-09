@@ -46,7 +46,6 @@ namespace ZwembadenRequestApp.Web.Controllers
                     AdminNotes = quoteRequest.AdminNotes,
                     RequestDate = quoteRequest.RequestDate,
                     ResponseDate = quoteRequest.ResponseDate,
-                    // Include all the original quote details for reference
                     PoolType = quoteRequest.PoolType,
                     Length = quoteRequest.Length,
                     Width = quoteRequest.Width,
@@ -97,7 +96,6 @@ namespace ZwembadenRequestApp.Web.Controllers
                 }
             }
 
-            // If we got this far, something failed; redisplay form with status list
             ViewBag.StatusList = new SelectList(new[]
             {
                 new { Value = QuoteStatus.New, Text = "New" },
@@ -108,20 +106,17 @@ namespace ZwembadenRequestApp.Web.Controllers
             return View(model);
         }
 
-        // Additional functionality for filtering and sorting
         public async Task<ActionResult> Filter(string status, string sortBy = "RequestDate", bool ascending = false)
         {
             try
             {
                 IEnumerable<QuoteRequest> allRequests = await _quoteRequestService.GetAllAsync();
 
-                // Filter by status if provided
                 if (!string.IsNullOrEmpty(status) && status != "All")
                 {
                     allRequests = allRequests.Where(q => q.Status == status);
                 }
 
-                // Sort the results
                 switch (sortBy.ToLower())
                 {
                     case "customername":
@@ -157,7 +152,6 @@ namespace ZwembadenRequestApp.Web.Controllers
             }
         }
 
-        // Quick status update actions
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateStatus(int id, string status)

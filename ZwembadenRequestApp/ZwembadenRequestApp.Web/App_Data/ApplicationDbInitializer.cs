@@ -26,7 +26,6 @@ namespace ZwembadenRequestApp.Web.App_Data
                 const string customerRole = "Customer";
                 const string password = "Test123?";
 
-                // Create Roles
                 if (!roleManager.RoleExists(adminRole))
                 {
                     roleManager.Create(new IdentityRole(adminRole));
@@ -36,7 +35,6 @@ namespace ZwembadenRequestApp.Web.App_Data
                     roleManager.Create(new IdentityRole(customerRole));
                 }
 
-                // Create Admin User
                 var adminUser = userManager.FindByName("admin");
                 if (adminUser == null)
                 {
@@ -52,15 +50,12 @@ namespace ZwembadenRequestApp.Web.App_Data
                     userManager.AddToRole(adminUser.Id, adminRole);
                 }
 
-                // Create Customer Users
                 CreateCustomerUser(userManager, "customerA", "customerA@pri.be", "Customer", "A", customerRole, password);
                 CreateCustomerUser(userManager, "customerB", "customerB@pri.be", "Customer", "B", customerRole, password);
                 CreateCustomerUser(userManager, "customerC", "customerC@pri.be", "Customer", "C", customerRole, password);
 
-                // Save changes to get user IDs
                 context.SaveChanges();
 
-                // Now seed quote requests
                 SeedQuoteRequests(context);
 
                 context.SaveChanges();
@@ -146,7 +141,6 @@ namespace ZwembadenRequestApp.Web.App_Data
                     ResponseDate = DateTime.Now.AddDays(-5)
                 });
 
-                // Open quote
                 context.QuoteRequests.Add(new QuoteRequest
                 {
                     CustomerId = customerA.Id,
@@ -199,7 +193,6 @@ namespace ZwembadenRequestApp.Web.App_Data
                     ResponseDate = DateTime.Now.AddDays(-5)
                 });
 
-                // Open quote 
                 context.QuoteRequests.Add(new QuoteRequest
                 {
                     CustomerId = customerB.Id,
