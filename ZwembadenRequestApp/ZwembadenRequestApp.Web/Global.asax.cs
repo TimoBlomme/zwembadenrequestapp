@@ -19,13 +19,11 @@ namespace ZwembadenRequestApp.Web
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 
-            // Register Unity DI container
             UnityConfig.RegisterComponents();
 
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            // Initialize database
             Database.SetInitializer<ApplicationDbContext>(new ApplicationDbInitializer());
 
             using (var context = new ApplicationDbContext())

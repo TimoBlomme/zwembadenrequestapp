@@ -17,11 +17,9 @@ namespace ZwembadenRequestApp.Web
         {
             var container = new UnityContainer();
 
-            // Register your types here
             container.RegisterType<ApplicationDbContext>(new HierarchicalLifetimeManager());
             container.RegisterType<IQuoteRequestService, QuoteRequestService>(new HierarchicalLifetimeManager());
 
-            // Register Identity types
             container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>(
                 new HierarchicalLifetimeManager(),
                 new InjectionConstructor(typeof(ApplicationDbContext)));
